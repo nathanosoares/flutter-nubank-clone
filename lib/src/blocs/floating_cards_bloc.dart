@@ -16,3 +16,9 @@ class FloatingCardsBloc {
     pageController.close();
   }
 }
+
+abstract class AnimateTopEvent {}
+
+class AnimateTopToUpEvent extends AnimateTopEvent {}
+
+class AnimateTopToDownEvent extends AnimateTopEvent {}

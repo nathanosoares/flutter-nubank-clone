@@ -24,7 +24,7 @@ class _FloatingCardsState extends State<FloatingCards>
     super.initState();
 
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 150));
   }
 
   @override
@@ -45,9 +45,7 @@ class _FloatingCardsState extends State<FloatingCards>
               stream: bloc.top.stream,
               initialData: 0.0,
               builder: (_, AsyncSnapshot<double> topSnapshop) {
-                maxTop = _height -
-                    positionSnapshot.data.dy -
-                    sizeSnapshot.data.height * 0.4;
+                maxTop = _height - positionSnapshot.data.dy - 70;
 
                 double currentToPercentage = 100 / maxTop * bloc.top.value;
 
