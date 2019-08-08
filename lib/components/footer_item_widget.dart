@@ -51,7 +51,12 @@ class FooterItem extends StatelessWidget {
         Spacer(),
         Text(
           text,
-          style: TextStyle(color: Colors.white, fontSize: 15),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontFamily: 'Trueno',
+            fontWeight: FontWeight.w300,
+          ),
         )
       ],
     );

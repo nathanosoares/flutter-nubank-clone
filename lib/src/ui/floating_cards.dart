@@ -58,59 +58,64 @@ class _FloatingCardsState extends State<FloatingCards>
                     stream: bloc.height.stream,
                     initialData: bloc.height.value,
                     builder: (_, AsyncSnapshot<double> heightSnapshot) {
-                      return Positioned(
-                        top: topSnapshop.data +
-                            ((sizeSnapshot.data.height - heightSnapshot.data) /
-                                2) -
-                            20,
-                        width: MediaQuery.of(context).size.width,
-                        height: heightSnapshot.data,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            if (bloc.top.value == maxTop) {
-                              bloc.animateTopEventSink
-                                  .add(AnimateTopToUpEvent());
-                            }
-                          },
-                          onPanUpdate: (DragUpdateDetails details) {
-                            if (bloc.topAnimationControler.value.isAnimating) {
-                              bloc.topAnimationControler.value
-                                  .stop(canceled: true);
-                            }
+                      double top = topSnapshop.data +
+                          ((sizeSnapshot.data.height - heightSnapshot.data) /
+                              2) -
+                          20;
 
-                            if (bloc.top.value + details.delta.dy > 0 &&
-                                bloc.top.value <= maxTop) {
-                              bool goingUp = false;
-
-                              if (details.delta.dy < 0) {
-                                goingUp = true;
+                      return Transform.translate(
+                        offset: Offset(0, top),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: heightSnapshot.data,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              if (bloc.top.value == maxTop) {
+                                bloc.animateTopEventSink
+                                    .add(AnimateTopToUpEvent());
+                              }
+                            },
+                            onPanUpdate: (DragUpdateDetails details) {
+                              if (bloc
+                                  .topAnimationControler.value.isAnimating) {
+                                bloc.topAnimationControler.value
+                                    .stop(canceled: true);
                               }
 
-                              double newTop = max(
-                                  0,
-                                  min(maxTop,
-                                      bloc.top.value + details.delta.dy));
+                              if (bloc.top.value + details.delta.dy > 0 &&
+                                  bloc.top.value <= maxTop) {
+                                bool goingUp = false;
 
-                              bloc.top.add(newTop);
+                                if (details.delta.dy < 0) {
+                                  goingUp = true;
+                                }
 
-                              setState(() {
-                                _goingUp = goingUp;
-                              });
-                            }
-                          },
-                          onPanEnd: (DragEndDetails details) {
-                            if (_goingUp || currentToPercentage <= 20) {
-                              bloc.animateTopEventSink
-                                  .add(AnimateTopToUpEvent());
-                              // _animate(context, AnimateDirection.UP);
-                            } else {
-                              bloc.animateTopEventSink
-                                  .add(AnimateTopToDownEvent());
-                              // _animate(context, AnimateDirection.DOWN);
-                            }
-                          },
-                          child: buildPageView(context),
+                                double newTop = max(
+                                    0,
+                                    min(maxTop,
+                                        bloc.top.value + details.delta.dy));
+
+                                bloc.top.add(newTop);
+
+                                setState(() {
+                                  _goingUp = goingUp;
+                                });
+                              }
+                            },
+                            onPanEnd: (DragEndDetails details) {
+                              if (_goingUp || currentToPercentage <= 20) {
+                                bloc.animateTopEventSink
+                                    .add(AnimateTopToUpEvent());
+                                // _animate(context, AnimateDirection.UP);
+                              } else {
+                                bloc.animateTopEventSink
+                                    .add(AnimateTopToDownEvent());
+                                // _animate(context, AnimateDirection.DOWN);
+                              }
+                            },
+                            child: buildPageView(context),
+                          ),
                         ),
                       );
                     });

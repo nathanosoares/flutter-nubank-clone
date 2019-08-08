@@ -14,61 +14,64 @@ class TopWidget extends StatelessWidget {
     FloatingCardsBloc floatingCardBloc =
         Provider.of<FloatingCardsBloc>(context);
 
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Image.network(
-              "https://aws1.discourse-cdn.com/nubank/original/1X/0e91acb8692ef95f8446675084ced03e892f16c2.png",
-              height: 35,
-              color: Colors.white,
-              fit: BoxFit.fitWidth,
-              filterQuality: FilterQuality.high,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8),
-              child: Text(
-                "Nathan",
-                style: TextStyle(
+    return StreamBuilder(
+      stream: floatingCardBloc.topPercentage.stream,
+      initialData: floatingCardBloc.topPercentage.value,
+      builder: (_, AsyncSnapshot<double> snapshot) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            if (snapshot.data == 100) {
+              floatingCardBloc.animateTopEventSink.add(AnimateTopToUpEvent());
+            } else if (snapshot.data == 0) {
+              floatingCardBloc.animateTopEventSink.add(AnimateTopToDownEvent());
+            }
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image(
+                    image: AssetImage('assets/images/nubank-logo.png'),
+                    height: 30,
                     color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            StreamBuilder(
-              stream: floatingCardBloc.topPercentage.stream,
-              initialData: floatingCardBloc.topPercentage.value,
-              builder: (_, AsyncSnapshot<double> snapshot) {
-                return Transform.rotate(
-                  angle: -(pi / 100 * snapshot.data),
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.white,
-                      size: 25,
-                    ),
+                    fit: BoxFit.fitWidth,
+                    filterQuality: FilterQuality.high,
                   ),
-                );
-              },
-            )
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-      ],
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    'John',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontFamily: 'Trueno'),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Transform.rotate(
+                angle: -(pi / 100 * snapshot.data),
+                child: Opacity(
+                  opacity: 0.5,
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
