@@ -12,7 +12,7 @@ class App extends StatefulWidget {
   AppState createState() => AppState();
 }
 
-class AppState extends State<App> with SingleTickerProviderStateMixin {
+class AppState extends State<App> {
   final GlobalKey _emptyExpandedKey = GlobalKey();
 
   Widget _emptyExpanded;
@@ -24,11 +24,6 @@ class AppState extends State<App> with SingleTickerProviderStateMixin {
     });
 
     super.initState();
-
-    _emptyExpanded = Expanded(
-      key: _emptyExpandedKey,
-      child: Container(),
-    );
   }
 
   @override
@@ -47,6 +42,50 @@ class AppState extends State<App> with SingleTickerProviderStateMixin {
 
     FloatingCardsBloc floatingCardBloc =
         Provider.of<FloatingCardsBloc>(context);
+
+    _emptyExpanded = Expanded(
+      key: _emptyExpandedKey,
+      child: StreamBuilder(
+        stream: floatingCardBloc.top.stream,
+        initialData: floatingCardBloc.top.value,
+        builder: (_, AsyncSnapshot<double> snapshot) {          
+          return Opacity(
+            opacity: snapshot.data > 50 ? 0 : 1,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                StreamBuilder(
+                  stream: floatingCardBloc.height.stream,
+                  initialData: floatingCardBloc.height.value,
+                  builder: (_, AsyncSnapshot<double> snapshot) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: snapshot.data,
+                    );
+                  },
+                ),
+                StreamBuilder(
+                  stream: floatingCardBloc.pageController.stream,
+                  initialData: floatingCardBloc.pageController.value,
+                  builder: (_, AsyncSnapshot<PageController> snapshot) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              FloatingCardsBloc.pageIndicatorVerticalPadding),
+                      child: PageIndicator(
+                        controller: snapshot.data,
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(130, 38, 158, 1),
@@ -69,64 +108,42 @@ class AppState extends State<App> with SingleTickerProviderStateMixin {
                         StreamBuilder(
                           stream: floatingCardBloc.topPercentage.stream,
                           initialData: floatingCardBloc.topPercentage.value,
-                          builder: (_, AsyncSnapshot<double> snapshtop) {
-                            double opacity =
-                                1.0 - max(0, min(1, snapshtop.data / 100));
-
-                            if (opacity.isNaN) {
-                              opacity = 1.0;
-                            }
-
+                          builder: (_, AsyncSnapshot<double> snapshot) {
                             return Opacity(
-                              opacity: opacity,
+                              opacity: floatingCardBloc.topPercentageToOpacity,
                               child: Column(
                                 children: <Widget>[
-                                  StreamBuilder(
-                                    stream:
-                                        floatingCardBloc.pageController.stream,
-                                    initialData:
-                                        floatingCardBloc.pageController.value,
-                                    builder: (_,
-                                        AsyncSnapshot<PageController>
-                                            snapshot) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: _height * 0.04),
-                                        child: PageIndicator(
-                                          controller: snapshot.data,
-                                        ),
-                                      );
-                                    },
-                                  ),
                                   Container(
                                     height: 95.0,
                                     child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: _height * 0.027),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
                                       itemCount: footerItems.length,
                                       itemBuilder:
-                                          (BuildContext context, int index) =>
-                                              Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: _height * 0.008),
-                                        child: Container(
-                                          width: 95,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  145, 64, 169, 1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(4))),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8),
-                                            child: footerItems[index],
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 0),
+                                          child: Container(
+                                            width: 95,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    145, 64, 169, 1),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4))),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: footerItems[index],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      separatorBuilder: (context, index) =>
-                                          Divider(
-                                        color: Colors.transparent,
-                                      ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          width: 10,
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
@@ -139,7 +156,23 @@ class AppState extends State<App> with SingleTickerProviderStateMixin {
                     Stack(
                       overflow: Overflow.visible,
                       // fit: StackFit.expand,
-                      children: <Widget>[FloatingCards()],
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 95,
+                                ),
+                                child: Container(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        FloatingCards(),
+                      ],
                     ),
                   ],
                 ),
