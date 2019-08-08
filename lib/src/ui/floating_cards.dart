@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:myapp/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/src/blocs/floating_cards_bloc.dart';
 import 'package:provider/provider.dart';
 
 class FloatingCards extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/src/blocs/floating_cards_bloc.dart';
 import 'package:provider/provider.dart';
 import 'src/app.dart';
 

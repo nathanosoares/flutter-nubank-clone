@@ -1,4 +1,4 @@
-package com.example.myapp;
+package br.com.nathan.nubank;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:myapp/components/footer_item_widget.dart';
-import 'package:myapp/components/top_widget.dart';
-import 'package:myapp/src/blocs/floating_cards_bloc.dart';
-import 'package:myapp/src/ui/floating_cards.dart';
+import 'package:nubank/components/footer_item_widget.dart';
+import 'package:nubank/components/top_widget.dart';
+import 'package:nubank/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/src/ui/floating_cards.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
