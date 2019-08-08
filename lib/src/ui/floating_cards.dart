@@ -36,7 +36,7 @@ class _FloatingCardsState extends State<FloatingCards>
     return StreamBuilder(
       stream: bloc.position.stream,
       initialData: Offset(0, 0),
-      builder: (_, AsyncSnapshot<Offset> positionSnapshop) {
+      builder: (_, AsyncSnapshot<Offset> positionSnapshot) {
         return StreamBuilder(
           stream: bloc.size.stream,
           initialData: Size(0, 0),
@@ -46,7 +46,7 @@ class _FloatingCardsState extends State<FloatingCards>
               initialData: 0.0,
               builder: (_, AsyncSnapshot<double> topSnapshop) {
                 maxTop = _height -
-                    positionSnapshop.data.dy -
+                    positionSnapshot.data.dy -
                     sizeSnapshot.data.height * 0.4;
 
                 double currentToPercentage = 100 / maxTop * bloc.top.value;
