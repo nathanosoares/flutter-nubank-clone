@@ -48,9 +48,10 @@ class TopWidget extends StatelessWidget {
                   Text(
                     'John',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: 'Trueno'),
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontFamily: 'Trueno',
+                    ),
                   ),
                 ],
               ),

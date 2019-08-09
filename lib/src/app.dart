@@ -48,7 +48,7 @@ class AppState extends State<App> {
       child: StreamBuilder(
         stream: floatingCardBloc.top.stream,
         initialData: floatingCardBloc.top.value,
-        builder: (_, AsyncSnapshot<double> snapshot) {          
+        builder: (_, AsyncSnapshot<double> snapshot) {
           return Opacity(
             opacity: snapshot.data > 50 ? 0 : 1,
             child: Column(
@@ -114,7 +114,7 @@ class AppState extends State<App> {
                               child: Column(
                                 children: <Widget>[
                                   Container(
-                                    height: 95.0,
+                                    height: 95,
                                     child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
                                       padding:
@@ -122,21 +122,9 @@ class AppState extends State<App> {
                                       itemCount: footerItems.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 0),
-                                          child: Container(
-                                            width: 95,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    145, 64, 169, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4))),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8),
-                                              child: footerItems[index],
-                                            ),
-                                          ),
+                                        return Container(
+                                          width: 95,
+                                          child: footerItems[index],
                                         );
                                       },
                                       separatorBuilder: (context, index) {

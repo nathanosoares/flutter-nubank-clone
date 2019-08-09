@@ -40,25 +40,40 @@ class FooterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Icon(
-          icon,
-          color: Colors.white,
-          size: 30,
+
+    return InkWell(
+      splashColor: Colors.black,
+      highlightColor: Colors.black,
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(145, 64, 169, 1),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
-        Spacer(),
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontFamily: 'Trueno',
-            fontWeight: FontWeight.w300,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Colors.white,
+                size: 30,
+              ),
+              Spacer(),
+              Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontFamily: 'Trueno',
+                  fontWeight: FontWeight.w300,
+                ),
+              )
+            ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
