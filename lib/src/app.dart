@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nubank/components/footer_item_widget.dart';
 import 'package:nubank/components/top_widget.dart';
 import 'package:nubank/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/src/ui/backdrop_info.dart';
 import 'package:nubank/src/ui/floating_cards.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,6 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   final GlobalKey _emptyExpandedKey = GlobalKey();
-
-  Widget _emptyExpanded;
 
   @override
   void initState() {
@@ -43,50 +40,6 @@ class AppState extends State<App> {
     FloatingCardsBloc floatingCardBloc =
         Provider.of<FloatingCardsBloc>(context);
 
-    _emptyExpanded = Expanded(
-      key: _emptyExpandedKey,
-      child: StreamBuilder(
-        stream: floatingCardBloc.top.stream,
-        initialData: floatingCardBloc.top.value,
-        builder: (_, AsyncSnapshot<double> snapshot) {
-          return Opacity(
-            opacity: snapshot.data > 50 ? 0 : 1,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                StreamBuilder(
-                  stream: floatingCardBloc.height.stream,
-                  initialData: floatingCardBloc.height.value,
-                  builder: (_, AsyncSnapshot<double> snapshot) {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: snapshot.data,
-                    );
-                  },
-                ),
-                StreamBuilder(
-                  stream: floatingCardBloc.pageController.stream,
-                  initialData: floatingCardBloc.pageController.value,
-                  builder: (_, AsyncSnapshot<PageController> snapshot) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical:
-                              FloatingCardsBloc.pageIndicatorVerticalPadding),
-                      child: PageIndicator(
-                        controller: snapshot.data,
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Color.fromRGBO(130, 38, 158, 1),
       body: SafeArea(
@@ -104,7 +57,7 @@ class AppState extends State<App> {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        _emptyExpanded,
+                        buildEmptyExpanded(context),
                         StreamBuilder(
                           stream: floatingCardBloc.topPercentage.stream,
                           initialData: floatingCardBloc.topPercentage.value,
@@ -145,20 +98,7 @@ class AppState extends State<App> {
                       overflow: Overflow.visible,
                       // fit: StackFit.expand,
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 20,
-                                  right: 20,
-                                  bottom: 95,
-                                ),
-                                child: Container(),
-                              ),
-                            ),
-                          ],
-                        ),
+                        BackdropInfo(),
                         FloatingCards(),
                       ],
                     ),
@@ -168,6 +108,54 @@ class AppState extends State<App> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Expanded buildEmptyExpanded(BuildContext context) {
+    FloatingCardsBloc bloc = Provider.of<FloatingCardsBloc>(context);
+
+    return Expanded(
+      key: _emptyExpandedKey,
+      child: StreamBuilder(
+        stream: bloc.top.stream,
+        initialData: bloc.top.value,
+        builder: (_, AsyncSnapshot<double> snapshot) {
+          return Opacity(
+            opacity: snapshot.data > 50 ? 0 : 1,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                StreamBuilder(
+                  stream: bloc.height.stream,
+                  initialData: bloc.height.value,
+                  builder: (_, AsyncSnapshot<double> snapshot) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: snapshot.data,
+                    );
+                  },
+                ),
+                StreamBuilder(
+                  stream: bloc.pageController.stream,
+                  initialData: bloc.pageController.value,
+                  builder: (_, AsyncSnapshot<PageController> snapshot) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              FloatingCardsBloc.pageIndicatorVerticalPadding),
+                      child: PageIndicator(
+                        controller: snapshot.data,
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

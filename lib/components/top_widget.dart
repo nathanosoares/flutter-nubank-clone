@@ -5,7 +5,7 @@ import 'package:nubank/src/blocs/floating_cards_bloc.dart';
 import 'package:provider/provider.dart';
 
 class TopWidget extends StatelessWidget {
-  const TopWidget({
+  TopWidget({
     Key key,
   }) : super(key: key);
 

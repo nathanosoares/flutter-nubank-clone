@@ -15,14 +15,16 @@ class _FloatingCardsState extends State<FloatingCards>
     with SingleTickerProviderStateMixin {
   bool _goingUp = false;
 
-  AnimationController animationController;
+  AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
 
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 150));
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 150),
+    );
   }
 
   @override
@@ -30,7 +32,7 @@ class _FloatingCardsState extends State<FloatingCards>
     FloatingCardsBloc bloc = Provider.of<FloatingCardsBloc>(context);
 
     if (bloc.topAnimationControler.value == null) {
-      bloc.topAnimationControler.add(animationController);
+      bloc.topAnimationControler.add(_animationController);
     }
 
     double _height = MediaQuery.of(context).size.height;
@@ -105,11 +107,9 @@ class _FloatingCardsState extends State<FloatingCards>
                             if (_goingUp || currentToPercentage <= 20) {
                               bloc.animateTopEventSink
                                   .add(AnimateTopToUpEvent());
-                              // _animate(context, AnimateDirection.UP);
                             } else {
                               bloc.animateTopEventSink
                                   .add(AnimateTopToDownEvent());
-                              // _animate(context, AnimateDirection.DOWN);
                             }
                           },
                           child: _buildPageView(context),
