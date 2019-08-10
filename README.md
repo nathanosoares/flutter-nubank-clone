@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-![](/preview.gif)
+<img src="/preview.gif" width="250" />
 
 ## Getting Started
 
