@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-![](https://i.imgur.com/7ZufajP.gif)
+![](/preview.gif)
 
 ## Getting Started
 
