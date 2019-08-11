@@ -46,12 +46,6 @@ class FloatingCardsBloc {
 
       height.add(_height);
     });
-
-    var t = Observable.concat([
-      top.stream,
-      maxTop.stream,
-    ]);
-
   }
 
   void dispose() {
