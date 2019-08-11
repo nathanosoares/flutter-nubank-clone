@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nubank/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/blocs/floating_cards_bloc.dart';
+import 'package:nubank/ui/app.dart';
 import 'package:provider/provider.dart';
-import 'src/app.dart';
 
 void main() => runApp(MaterialApp(
-      home: NubankClone(),
+      home: _NubankClone(),
     ));
 
-class NubankClone extends StatelessWidget {
+class _NubankClone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

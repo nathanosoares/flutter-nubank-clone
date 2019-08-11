@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:nubank/src/blocs/floating_cards_bloc.dart';
+import 'package:nubank/blocs/floating_cards_bloc.dart';
 import 'package:provider/provider.dart';
 
-class TopWidget extends StatelessWidget {
-  TopWidget({
+class Header extends StatelessWidget {
+  Header({
     Key key,
   }) : super(key: key);
 

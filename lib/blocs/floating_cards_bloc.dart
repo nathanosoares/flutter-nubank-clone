@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 class FloatingCardsBloc {
@@ -45,6 +46,12 @@ class FloatingCardsBloc {
 
       height.add(_height);
     });
+
+    var t = Observable.concat([
+      top.stream,
+      maxTop.stream,
+    ]);
+
   }
 
   void dispose() {
