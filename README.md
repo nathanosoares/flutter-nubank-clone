@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+<img src="/preview.gif" width="250" />
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
