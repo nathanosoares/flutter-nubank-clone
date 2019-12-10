@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nubank/blocs/floating_cards_bloc.dart';
-import 'package:nubank/ui/app.dart';
+import 'package:nubank/pages/dashboard/dashboard.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MaterialApp(
-      home: _NubankClone(),
-    ));
+void main() => runApp(_NubankClone());
 
 class _NubankClone extends StatelessWidget {
   @override
@@ -18,11 +15,13 @@ class _NubankClone extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        Provider<FloatingCardsBloc>.value(value: FloatingCardsBloc()),
       ],
       child: MaterialApp(
         title: 'NuBank Clone',
-        home: App(),
+        routes: {
+          '/': (context) => DashboardPage()
+        },
+        initialRoute: '/',
         color: Color.fromRGBO(130, 38, 158, 1),
         theme: ThemeData(
           accentColor: Color.fromRGBO(130, 38, 158, 1),
